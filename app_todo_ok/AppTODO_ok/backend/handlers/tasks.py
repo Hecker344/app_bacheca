@@ -16,7 +16,8 @@ class TasksHandler(BaseHandler):
             out.append({
                 "id": str(t["_id"]),
                 "text": t["text"],
-                "done": t["done"]
+                "user": t["user"],
+                "date": t["date"]
             })
 
         return self.write_json({"items": out})
@@ -36,29 +37,12 @@ class TasksHandler(BaseHandler):
         result = await tasks.insert_one({
             "user_id": ObjectId(user["id"]),
             "text": text,
-            "done": False,
             "user": user["email"],
             "date": formatted_time
         })
 
         return self.write_json({"id": str(result.inserted_id)}, 201)
 
-
-class TaskUpdateHandler(BaseHandler):
-    async def put(self, task_id):
-        user = self.get_current_user()
-        if not user:
-            return self.write_json({"error": "Non autenticato"}, 401)
-
-        body = tornado.escape.json_decode(self.request.body)
-        done = body.get("done")
-
-        await tasks.update_one(
-            {"_id": ObjectId(task_id), "user_id": ObjectId(user["id"])},
-            {"$set": {"done": bool(done)}}
-        )
-
-        return self.write_json({"message": "Aggiornato"})
 
 
 class TaskDeleteHandler(BaseHandler):
