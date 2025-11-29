@@ -103,12 +103,10 @@ li {
     font-size: 15px;
 }
 
-li.done {
-    background: #d7ffd7;
-    text-decoration: line-through;
-    color: #2e7d32;
-}
+li.textSpan {
+    font-size: 5px;
 
+}
 /* ============================
    CONTENITORE ICONE
 =============================*/

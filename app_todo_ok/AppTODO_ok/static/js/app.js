@@ -54,11 +54,15 @@ async function loadTasks() {
 
     data.items.forEach(t => {
         const li = document.createElement("li");
-        li.className = t.done ? "done" : "";
-
         // Testo
         const textSpan = document.createElement("span");
         textSpan.textContent = t.text;
+
+        const userSpan = document.createElement("span");
+        userSpan.textContent = t.user;
+
+        const dateSpan = document.createElement("span");
+        dateSpan.textContent = t.date;
 
         // Area icone
         const actions = document.createElement("div");
@@ -68,10 +72,11 @@ async function loadTasks() {
         del.className = "icon-btn";
         del.innerHTML = '<i class="fa-solid fa-trash" title="Elimina"></i>';
         del.onclick = () => deleteTask(t.id);
-        actions.appendChild(toggle);
         actions.appendChild(del);
 
         li.appendChild(textSpan);
+        li.appendChild(userSpan);
+        li.appendChild(dateSpan);
         li.appendChild(actions);
         list.appendChild(li);
     });
